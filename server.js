@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 require('dotenv').load();
 
 // MongoDB
+console.log(`mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}/mandela`);
 mongoose.connect(`mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}/mandela`)
 
 // Express
