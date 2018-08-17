@@ -19,7 +19,7 @@ Familia.route('get', (req, res, next) =>{
         .sort({id: 1})
         .exec()
         .then(familias => {
-            if (familias.length === 0) {
+            if (familias === null || familias.length === 0) {
                 throw { customError: true, status: 204, message: "Familias não encontradas" };
             }
 
@@ -45,7 +45,7 @@ Usuario.route('login.post', (req, res) => {
     Usuario.findOne({ email: email, pwd: hashPwd })
         .exec()
         .then(usuario => {
-            if (usuario.length === 0) {
+            if (usuario === null || usuario.length === 0) {
                 throw { customError: true, status: 204, message: "Usuário não encontrado" };
             }
 
