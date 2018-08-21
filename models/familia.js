@@ -15,7 +15,8 @@ const Familia = new mongoose.Schema({
     beneficios: [{nome : String, valor: Number}],
     membros: [{nome : String, nascimento : Date, escolaridade : String, responsavel : Boolean}],
     observacao : String,
-    tempoAtendimento : Number
+    tempoAtendimento : Number,
+    itensDoados: String
 });
 
 module.exports = restful.model('familia', Familia);
