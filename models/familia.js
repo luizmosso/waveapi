@@ -34,6 +34,7 @@ const Familia = new mongoose.Schema({
   observacao: String,
   tempoAtendimento: Number,
   itensDoados: String,
+  instituicao: { type: mongoose.Schema.Types.ObjectId, ref: 'Instituicao' },
   historicoAtivacao: [
     {
       data: { type: Date, default: Date.now },
