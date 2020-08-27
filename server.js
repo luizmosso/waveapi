@@ -3,6 +3,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var cron = require('node-cron');
 require('dotenv').config();
 
 // MongoDB
@@ -39,4 +40,8 @@ app.use('/api', require('./routes/api'));
 app.set('port', process.env.PORT || 5000);
 app.listen(app.get('port'), function () {
   console.log('API is running fine!');
+});
+
+cron.schedule('* * * * * *', () => {
+  console.log('running a task every second');
 });
