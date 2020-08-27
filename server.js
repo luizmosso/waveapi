@@ -43,6 +43,7 @@ app.listen(app.get('port'), function () {
   console.log('API is running fine!');
 });
 
-cron.schedule('*/5 * * * * *', () => {
-  DisableFamiliesByEndOfAttendance();
+// Job diário
+cron.schedule('*/30 * * * * *', () => {
+  DisableFamilyByCriteria();
 });
