@@ -43,6 +43,6 @@ app.listen(app.get('port'), function () {
   console.log('API is running fine!');
 });
 
-cron.schedule('* * * * *', () => {
+cron.schedule('*/30 * * * * *', () => {
   DisableFamiliesByEndOfAttendance();
 });
