@@ -3,7 +3,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-require('dotenv').load();
+require('dotenv').config();
 
 // MongoDB
 mongoose.connect(
