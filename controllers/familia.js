@@ -24,8 +24,8 @@ async function getFamilias(_id) {
 async function updateFamilia(familia) {
   try {
     const { _id, __v, ...familiaToUpdate } = familia;
-    console.log(_id);
-    const result = await Familia.findByIdAndUpdate({ _id }, familiaToUpdate, {
+    console.log(familiaToUpdate);
+    const result = await Familia.findOneAndUpdate({ _id }, familiaToUpdate, {
       upsert: true,
       setDefaultsOnInsert: true,
     });
