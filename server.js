@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var cron = require('node-cron');
-var { DisableFamiliesByEndOfAttendance } = require('./jobs');
+var { DisableFamiliesByEndOfAttendance } = require('./jobs/familia');
 require('dotenv').config();
 
 // MongoDB
