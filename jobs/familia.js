@@ -2,10 +2,12 @@ var moment = require('moment');
 var { getFamilias, updateFamilia } = require('../controllers/familia');
 
 function DisableFamily(family, motivo) {
-  family.observacao = `Família desativada pelo sistema no dia ${moment().format(
+  const dataDesativacao = moment();
+  family.observacao = `Família desativada pelo sistema no dia ${dataDesativacao.format(
     'DD/MM/YYYY'
   )}. ${motivo}`;
   family.ativo = false;
+  family.dataUltimaDesativacao = dataDesativacao.toISOString();
   updateFamilia(family.toObject());
 }
 

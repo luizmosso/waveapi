@@ -5,7 +5,7 @@ const Familia = new mongoose.Schema({
   id: String,
   ativo: Boolean,
   dataCadastro: { type: Date, default: Date.now },
-  dataAtivacao: [Date],
+  dataUltimaDesativacao: [Date],
   endereco: String,
   bairro: String,
   telefone: Number,
