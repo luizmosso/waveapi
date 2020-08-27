@@ -1,5 +1,19 @@
-function DisableFamiliesByEndOfAttendance() {
-  console.log('disabled');
+var moment = require('moment');
+var { getFamilias } = require('../controllers/familia');
+
+async function DisableFamiliesByEndOfAttendance() {
+  console.log('disabled'); // Get familias
+  const familias = getFamilias();
+  const ativas = familias.filter(({ ativo }) => ativo);
+  ativas.forEach(({ dataCadastro, tempoAtendimento }) => {
+    const cadastro = moment(dataCadastro);
+    const final = cadastro.add(parseInt(tempoAtendimento), 'M');
+    console.log(
+      cadastro.format('DD/MM/YYYY'),
+      final.format('DD/MM/YYYY'),
+      final.diff(cadastro, 'months', true)
+    );
+  });
 }
 
 module.exports = {
