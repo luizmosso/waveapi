@@ -25,7 +25,10 @@ async function updateFamilia(familia) {
   try {
     const { _id, ...familiaToUpdate } = familia;
     console.log(_id);
-    const result = await Familia.findOneAndUpdate({ _id }, familiaToUpdate);
+    const result = await Familia.findByIdAndUpdate(
+      { _id },
+      { observacao: 'Desativado' }
+    );
     console.log('aqui', result);
     if (!result) {
       throw {
