@@ -45,6 +45,6 @@ app.listen(app.get('port'), function () {
 });
 
 // Job diário
-cron.schedule('0 0 * * *', () => {
+cron.schedule('*/30 * * * * *', () => {
   DisableFamilyByCriteria();
 });

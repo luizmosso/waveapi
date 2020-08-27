@@ -45,7 +45,29 @@ async function updateFamilia(familia) {
   }
 }
 
+async function deleteFamilia(familia) {
+  try {
+    const { _id, __v, ...familiaToUpdate } = familia;
+    const result = await Familia.findOneAndDelete({ _id });
+    if (!result) {
+      throw {
+        customError: true,
+        error: true,
+        status: 204,
+        message: 'Familia não encontrada',
+      };
+    }
+    return result;
+  } catch (error) {
+    if (!error.customError) {
+      return { error: true, status: 500, message: 'Erro Interno' };
+    }
+    return error;
+  }
+}
+
 module.exports = {
   getFamilias,
   updateFamilia,
+  deleteFamilia,
 };
