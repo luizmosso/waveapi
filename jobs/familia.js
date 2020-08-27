@@ -7,8 +7,7 @@ async function DisableFamiliesByEndOfAttendance() {
   const ativas = familias.filter(({ ativo }) => ativo);
   ativas.forEach(({ dataCadastro, tempoAtendimento }) => {
     const cadastro = moment(dataCadastro);
-    console.log(cadastro.format('DD/MM/YYYY'));
-    const final = cadastro.add(parseInt(tempoAtendimento), 'M');
+    const final = moment(dataCadastro).add(parseInt(tempoAtendimento), 'M');
     console.log(
       cadastro.format('DD/MM/YYYY'),
       final.format('DD/MM/YYYY'),
