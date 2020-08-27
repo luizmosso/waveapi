@@ -26,7 +26,7 @@ async function updateFamilia(familia) {
     const { _id, ...familiaToUpdate } = familia;
     console.log(_id);
     const result = await Familia.findByIdAndUpdate(_id, familiaToUpdate);
-    console.log(result);
+    console.log('aqui', result);
     if (!result) {
       throw {
         customError: true,
