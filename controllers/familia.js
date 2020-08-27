@@ -1,3 +1,5 @@
+var Familia = require('../models/familia');
+
 async function getFamilias(id) {
   const params = id ? { _id: req.params.id } : {};
   try {
