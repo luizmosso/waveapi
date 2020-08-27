@@ -6,16 +6,15 @@ async function getFamilias(id) {
     if (!familias || familias.length === 0) {
       throw {
         customError: true,
+        error: true,
         status: 204,
         message: 'Familias não encontradas',
       };
     }
   } catch (error) {
-    if (!err.customError)
+    if (!error.customError)
       return { error: true, status: 500, message: 'Erro Interno' };
-    else {
-      return { error: true, status: 204, message: err.message };
-    }
+    return error;
   }
 }
 
