@@ -11,6 +11,7 @@ const { restart } = require('nodemon');
 Familia.methods(['post', 'put', 'delete']);
 Familia.route('get', (req, res) => {
   const get = async () => {
+    console.log(req, req.params);
     const id = req.params.id || null;
     const familias = await getFamilias(id);
     if (familias.error) {
