@@ -11,21 +11,17 @@ const { restart } = require('nodemon');
 Familia.methods(['post', 'put', 'delete']);
 Familia.route('get', (req, res) => {
   const get = async () => {
-    console.log('aqui');
     const id = req.params.id || null;
     const familias = await getFamilias(id);
-    console.log(familias);
-    res.send('FOI');
-    // const familias = await getFamilias(req.params.id);
-    // if (familias.error) {
-    //   if (familias.status === 500)
-    //     res.status(500).json({ error: familias.message });
-    //   if (familias.status === 204) {
-    //     res.statusMessage = familias.message;
-    //     res.status(familias.status).end();
-    //   }
-    // }
-    // res.send(familias);
+    if (familias.error) {
+      if (familias.status === 500)
+        res.status(500).json({ error: familias.message });
+      if (familias.status === 204) {
+        res.statusMessage = familias.message;
+        res.status(familias.status).end();
+      }
+    }
+    res.send(familias);
   };
   get();
 });

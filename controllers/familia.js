@@ -16,7 +16,6 @@ async function getFamilias(id) {
     }
   } catch (error) {
     if (!error.customError) {
-      console.log(error);
       return { error: true, status: 500, message: 'Erro Interno' };
     }
     return error;
