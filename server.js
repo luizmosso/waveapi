@@ -8,6 +8,7 @@ var { DisableFamilyByCriteria } = require('./jobs/familia');
 require('dotenv').config();
 
 // MongoDB
+mongoose.set('useFindAndModify', false);
 mongoose.connect(
   `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}/mandela`
 );

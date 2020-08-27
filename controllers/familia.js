@@ -22,6 +22,7 @@ async function getFamilias(_id) {
 }
 
 async function updateFamilia(familia) {
+  console.log(familia);
   try {
     const { _id, __v, ...familiaToUpdate } = familia;
     const result = await Familia.findOneAndUpdate({ _id }, familiaToUpdate, {
