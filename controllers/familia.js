@@ -24,7 +24,9 @@ async function getFamilias(_id) {
 async function updateFamilia(familia) {
   try {
     const { _id } = familia;
+    console.log(_id);
     const result = await Familia.findOneAndReplace({ _id }, familia);
+    console.log(result);
     if (!result) {
       throw {
         customError: true,
@@ -33,7 +35,7 @@ async function updateFamilia(familia) {
         message: 'Familia não encontrada',
       };
     }
-    return familias;
+    return result;
   } catch (error) {
     if (!error.customError) {
       return { error: true, status: 500, message: 'Erro Interno' };
