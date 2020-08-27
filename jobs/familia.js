@@ -3,6 +3,7 @@ var { getFamilias, updateFamilia } = require('../controllers/familia');
 
 function DisableFamily(family) {
   family.observacao = 'desativada agora';
+  console.log(family);
   updateFamilia(family);
 }
 
