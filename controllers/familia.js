@@ -4,8 +4,6 @@ async function getFamilias(id) {
   const params = id ? { _id: req.params.id } : {};
   try {
     const familias = await Familia.find(params).sort({ id: 1 }).exec();
-    console.log(familias);
-
     if (!familias || familias.length === 0) {
       throw {
         customError: true,
@@ -14,6 +12,7 @@ async function getFamilias(id) {
         message: 'Familias não encontradas',
       };
     }
+    return familias;
   } catch (error) {
     if (!error.customError) {
       return { error: true, status: 500, message: 'Erro Interno' };
