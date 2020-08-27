@@ -28,7 +28,6 @@ async function updateFamilia(familia) {
       upsert: true,
       setDefaultsOnInsert: true,
     });
-    console.log(result);
     if (!result) {
       throw {
         customError: true,

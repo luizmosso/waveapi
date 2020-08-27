@@ -1,8 +1,11 @@
 var moment = require('moment');
 var { getFamilias, updateFamilia } = require('../controllers/familia');
 
-function DisableFamily(family) {
-  family.observacao = 'desativada agora';
+function DisableFamily(family, motivo) {
+  family.observacao = `Família desativada pelo sistema no dia ${moment().format(
+    'DD/MM/YYYY'
+  )}. ${motivo}`;
+  family.ativo = false;
   updateFamilia(family.toObject());
 }
 
@@ -18,26 +21,25 @@ async function DisableFamilyByCriteria() {
     const cadastro = moment(dataCadastro);
     const final = moment();
 
-    if (family.id === 'F888') {
-      DisableFamily(family);
+    // Desativa a família caso o tempo de atendimento tenha terminado
+    if (final.diff(cadastro, 'months', true) >= parseInt(tempoAtendimento)) {
+      DisableFamily(family, 'Tempo de atendimento');
+    } else {
+      for (let index = 0; index < cronograma.length; index++) {
+        const month = cronograma[index];
+        if (index > 0) {
+          const pastMonth = cronograma[index - 1];
+          // Desativa a família caso ela não tenha recolhido a cesta por dois meses seguidos.
+          if (month.status === 'error' && pastMonth.status === 'error') {
+            DisableFamily(
+              family,
+              'Não recolhimento das cestas durante dois mêses consecutivos'
+            );
+            break;
+          }
+        }
+      }
     }
-
-    // // Desativa a família caso o tempo de atendimento tenha terminado
-    // if (final.diff(cadastro, 'months', true) >= parseInt(tempoAtendimento)) {
-    //   DisableFamily(family);
-    // } else {
-    //   for (let index = 0; index < cronograma.length; index++) {
-    //     const month = cronograma[index];
-    //     if (index > 0) {
-    //       const pastMonth = cronograma[index - 1];
-    //       // Desativa a família caso ela não tenha recolhido a cesta por dois meses seguidos.
-    //       if (month.status === 'error' && pastMonth.status === 'error') {
-    //         DisableFamily(family);
-    //         break;
-    //       }
-    //     }
-    //   }
-    // }
   });
 }
 
