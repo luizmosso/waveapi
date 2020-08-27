@@ -8,11 +8,10 @@ async function DisableFamiliesByEndOfAttendance() {
   ativas.forEach(({ dataCadastro, tempoAtendimento }) => {
     const cadastro = moment(dataCadastro);
     const final = moment();
+
     console.log(
-      cadastro.format('DD/MM/YYYY'),
-      final.format('DD/MM/YYYY'),
       tempoAtendimento,
-      final.diff(cadastro, 'months', true)
+      final.diff(cadastro, 'months', true) >= parseInt(tempoAtendimento)
     );
   });
 }
