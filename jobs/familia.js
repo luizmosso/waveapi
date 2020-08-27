@@ -3,7 +3,7 @@ var { getFamilias } = require('../controllers/familia');
 
 async function DisableFamiliesByEndOfAttendance() {
   console.log('disabled'); // Get familias
-  const familias = getFamilias();
+  const familias = await getFamilias();
   const ativas = familias.filter(({ ativo }) => ativo);
   ativas.forEach(({ dataCadastro, tempoAtendimento }) => {
     const cadastro = moment(dataCadastro);
