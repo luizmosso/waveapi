@@ -5,7 +5,7 @@ async function getInstituicoesByUser(userId) {
   const params = { _id: userId };
   try {
     const user = await Usuario.find(params).sort({ id: 1 }).exec();
-    console.log(user.instituicoes);
+    console.log(user);
     const instIDs = user.instituicoes.map((inst) => inst.id);
     const instParams = { _id: { $in: instIDs } };
     const instituicoes = await Instituicao.find(instParams)
