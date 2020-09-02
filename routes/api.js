@@ -89,7 +89,7 @@ Usuario.route('login.post', (req, res) => {
 });
 Usuario.register(router, '/usuario');
 
-router.put('/:id', (req, res) => {
+router.put('/usuario/:id', (req, res) => {
   const update = async () => {
     const usuario = req.body;
     const { _id } = req.params;
