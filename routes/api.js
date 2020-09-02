@@ -7,6 +7,7 @@ var Usuario = require('../models/usuario');
 var crypt = require('../crypt');
 const { getFamilias } = require('../controllers/familia');
 const { updateUsuario } = require('../controllers/usuario');
+const { getInstituicoesByUser } = require('../controllers/instituicao');
 
 Familia.methods(['post', 'put', 'delete']);
 Familia.route('get', (req, res) => {
@@ -58,21 +59,19 @@ Usuario.route('post', (req, res) => {
 });
 
 Usuario.route('put', (req, res) => {
-  console.log('aquii');
   const update = async () => {
     const usuario = req.body;
     const { _id, ...userToUpdate } = usuario;
-    const result = await updateUsuario(_id, userToUpdate);
-    console.log('uai', result);
-    if (result.error) {
-      if (result.status === 500)
-        res.status(500).json({ error: result.message });
-      if (result.status === 204) {
-        res.statusMessage = result.message;
-        res.status(result.status).end();
+    const updatedUser = await updateUsuario(_id, userToUpdate);
+    if (updatedUser.error) {
+      if (updatedUser.status === 500)
+        res.status(500).json({ error: updatedUser.message });
+      if (updatedUser.status === 204) {
+        res.statusMessage = updatedUser.message;
+        res.status(updatedUser.status).end();
       }
     }
-    res.send(result);
+    res.send(updatedUser);
   };
   update();
 });
@@ -107,6 +106,23 @@ Usuario.route('login.post', (req, res) => {
 Usuario.register(router, '/usuario');
 
 Instituicao.methods(['get', 'post', 'put', 'delete']);
+Instituicao.route('byUser.get', (req, res) => {
+  const get = async () => {
+    const id = req.params.id || null;
+    console.log(id);
+    const instituicoes = await getInstituicoesByUser(id);
+    if (instituicoes.error) {
+      if (instituicoes.status === 500)
+        res.status(500).json({ error: instituicoes.message });
+      if (instituicoes.status === 204) {
+        res.statusMessage = instituicoes.message;
+        res.status(instituicoes.status).end();
+      }
+    }
+    res.send(instituicoes);
+  };
+  get();
+});
 Instituicao.register(router, '/instituicao');
 
 module.exports = router;
