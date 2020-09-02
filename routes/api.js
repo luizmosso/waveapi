@@ -62,7 +62,6 @@ Usuario.route('put', (req, res) => {
   const update = async () => {
     const usuario = req.body;
     const { _id, ...userToUpdate } = usuario;
-    console.log(_id, userToUpdate);
     const result = await updateUsuario(_id, userToUpdate);
     if (result.error) {
       if (result.status === 500)

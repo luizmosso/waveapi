@@ -5,7 +5,6 @@ async function updateUsuario(_id, usuario) {
     if (usuario.pwd) {
       usuario.pwd = crypt.crypt(usuario.pwd);
     }
-    const { _id } = req.params;
     const result = await Usuario.findOneAndUpdate({ _id }, usuario, {
       upsert: true,
       setDefaultsOnInsert: true,
