@@ -106,23 +106,28 @@ Usuario.route('login.post', (req, res) => {
 Usuario.register(router, '/usuario');
 
 Instituicao.methods(['get', 'post', 'put', 'delete']);
-Instituicao.route('byUser:id.get', (req, res) => {
-  const get = async () => {
-    const id = req.params.id || null;
-    console.log(req);
-    const instituicoes = await getInstituicoesByUser(id);
-    if (instituicoes.error) {
-      if (instituicoes.status === 500)
-        res.status(500).json({ error: instituicoes.message });
-      if (instituicoes.status === 204) {
-        res.statusMessage = instituicoes.message;
-        res.status(instituicoes.status).end();
-      }
-    }
-    res.send(instituicoes);
-  };
-  get();
-});
+// Instituicao.route('byUser:id.get', (req, res) => {
+//   const get = async () => {
+//     const id = req.params.id || null;
+//     console.log(req);
+//     const instituicoes = await getInstituicoesByUser(id);
+//     if (instituicoes.error) {
+//       if (instituicoes.status === 500)
+//         res.status(500).json({ error: instituicoes.message });
+//       if (instituicoes.status === 204) {
+//         res.statusMessage = instituicoes.message;
+//         res.status(instituicoes.status).end();
+//       }
+//     }
+//     res.send(instituicoes);
+//   };
+//   get();
+// });
 Instituicao.register(router, '/instituicao');
+
+router.put('/instituicao/byUser/:id', (req, res) => {
+  console.log(req.params);
+  res.send('OK');
+});
 
 module.exports = router;
