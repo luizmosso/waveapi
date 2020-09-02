@@ -6,7 +6,7 @@ var Familia = require('../models/familia');
 var Usuario = require('../models/usuario');
 var crypt = require('../crypt');
 const { getFamilias } = require('../controllers/familia');
-const { restart } = require('nodemon');
+const { updateUsuario } = require('../controllers/usuario');
 
 Familia.methods(['post', 'put', 'delete']);
 Familia.route('get', (req, res) => {
@@ -58,35 +58,21 @@ Usuario.route('post', (req, res) => {
 });
 
 Usuario.route('put', (req, res) => {
-  try {
-    const user = req.body
-    if(user.pwd){
-      user.pwd = crypt.crypt(user.pwd);
+  const update = async () => {
+    const usuario = req.body;
+    const { _id } = req.params;
+    const usuario = await updateUsuario(_id, usuario);
+    if (usuario.error) {
+      if (usuario.status === 500)
+        res.status(500).json({ error: usuario.message });
+      if (usuario.status === 204) {
+        res.statusMessage = usuario.message;
+        res.status(usuario.status).end();
+      }
     }
-    const { _id } = req.params
-    const result = await Familia.findOneAndUpdate({ _id }, user, {
-      upsert: true,
-      setDefaultsOnInsert: true,
-    });
-    if (!result) {
-      throw {
-        customError: true,
-        error: true,
-        status: 204,
-        message: 'Usuário não encontrado',
-      };
-    }
-    // let newUser = u.toObject();
-    // delete newUser.pwd;
-    res.send(result);
-    
-  } catch (err) {
-    if (!err.customError) res.status(500).json({ error: 'Erro interno' });
-    else {
-      res.statusMessage = err.message;
-      res.status(204).end();
-    }
-  }
+    res.send(usuario);
+  };
+  update();
 });
 
 Usuario.route('login.post', (req, res) => {
