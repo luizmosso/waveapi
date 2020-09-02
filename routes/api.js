@@ -28,7 +28,7 @@ Familia.route('get', (req, res) => {
 
 Familia.register(router, '/familia');
 
-Usuario.methods(['get', 'put', 'delete']);
+Usuario.methods(['get', 'delete']);
 Usuario.route('post', (req, res) => {
   const nome = req.body.nome;
   const email = req.body.email;
@@ -76,12 +76,16 @@ Usuario.route('put', (req, res) => {
         message: 'Usuário não encontrado',
       };
     }
-    return result;
-  } catch (error) {
-    if (!error.customError) {
-      return { error: true, status: 500, message: 'Erro Interno' };
+    // let newUser = u.toObject();
+    // delete newUser.pwd;
+    res.send(result);
+    
+  } catch (err) {
+    if (!err.customError) res.status(500).json({ error: 'Erro interno' });
+    else {
+      res.statusMessage = err.message;
+      res.status(204).end();
     }
-    return error;
   }
 });
 
