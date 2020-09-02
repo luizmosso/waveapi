@@ -57,6 +57,34 @@ Usuario.route('post', (req, res) => {
   }
 });
 
+Usuario.route('put', (req, res) => {
+  try {
+    const user = req.body
+    if(user.pwd){
+      user.pwd = crypt.crypt(user.pwd);
+    }
+    const { _id } = req.params
+    const result = await Familia.findOneAndUpdate({ _id }, user, {
+      upsert: true,
+      setDefaultsOnInsert: true,
+    });
+    if (!result) {
+      throw {
+        customError: true,
+        error: true,
+        status: 204,
+        message: 'Usuário não encontrado',
+      };
+    }
+    return result;
+  } catch (error) {
+    if (!error.customError) {
+      return { error: true, status: 500, message: 'Erro Interno' };
+    }
+    return error;
+  }
+});
+
 Usuario.route('login.post', (req, res) => {
   const email = req.body.email;
   const hashPwd = crypt.crypt(req.body.pwd);
