@@ -109,7 +109,7 @@ Instituicao.methods(['get', 'post', 'put', 'delete']);
 Instituicao.route('byUser.get', (req, res) => {
   const get = async () => {
     const id = req.params.id || null;
-    console.log(id);
+    console.log(req.params);
     const instituicoes = await getInstituicoesByUser(id);
     if (instituicoes.error) {
       if (instituicoes.status === 500)
