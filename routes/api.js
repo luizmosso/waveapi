@@ -58,23 +58,7 @@ Usuario.route('post', (req, res) => {
   }
 });
 
-Usuario.route('put', (req, res) => {
-  const update = async () => {
-    const usuario = req.body;
-    const { _id, ...userToUpdate } = usuario;
-    const updatedUser = await updateUsuario(_id, userToUpdate);
-    if (updatedUser.error) {
-      if (updatedUser.status === 500)
-        res.status(500).json({ error: updatedUser.message });
-      if (updatedUser.status === 204) {
-        res.statusMessage = updatedUser.message;
-        res.status(updatedUser.status).end();
-      }
-    }
-    res.send(updatedUser);
-  };
-  update();
-});
+Usuario.route('put', (req, res) => {});
 
 Usuario.route('login.post', (req, res) => {
   const email = req.body.email;
@@ -104,6 +88,24 @@ Usuario.route('login.post', (req, res) => {
     });
 });
 Usuario.register(router, '/usuario');
+
+router.put('/:id', (req, res) => {
+  const update = async () => {
+    const usuario = req.body;
+    const { _id } = req.params;
+    const updatedUser = await updateUsuario(_id, usuario);
+    if (updatedUser.error) {
+      if (updatedUser.status === 500)
+        res.status(500).json({ error: updatedUser.message });
+      if (updatedUser.status === 204) {
+        res.statusMessage = updatedUser.message;
+        res.status(updatedUser.status).end();
+      }
+    }
+    res.send(updatedUser);
+  };
+  update();
+});
 
 Instituicao.register(router, '/instituicao');
 
