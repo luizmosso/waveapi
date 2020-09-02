@@ -110,7 +110,6 @@ Instituicao.register(router, '/instituicao');
 router.get('/instituicao/byUser/:id', (req, res) => {
   const get = async () => {
     const id = req.params.id || null;
-    console.log(req);
     const instituicoes = await getInstituicoesByUser(id);
     if (instituicoes.error) {
       if (instituicoes.status === 500)
