@@ -106,7 +106,7 @@ Usuario.route('login.post', (req, res) => {
 Usuario.register(router, '/usuario');
 
 Instituicao.methods(['get', 'post', 'put', 'delete']);
-Instituicao.route('byUser.get', (req, res) => {
+Instituicao.route('byUser/:id.get', (req, res) => {
   const get = async () => {
     const id = req.params.id || null;
     console.log(req);
