@@ -4,9 +4,9 @@ var Usuario = require('../models/usuario');
 async function getInstituicoesByUser(userId) {
   const params = { _id: userId };
   try {
-    const user = await Usuario.find(params).sort({ id: 1 }).exec();
-    console.log(user);
-    const instIDs = user.instituicoes.map((inst) => inst.id);
+    const users = await Usuario.find(params).sort({ id: 1 }).exec();
+    const instIDs = user[0].instituicoes.map((inst) => inst.id);
+    console.log(instIDs);
     const instParams = { _id: { $in: instIDs } };
     const instituicoes = await Instituicao.find(instParams)
       .sort({ id: 1 })
