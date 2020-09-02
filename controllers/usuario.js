@@ -1,7 +1,9 @@
 var Usuario = require('../models/usuario');
 
 async function updateUsuario(_id, usuario) {
+  console.log('chamou');
   try {
+    console.log('dentro', usuario);
     if (usuario.pwd) {
       usuario.pwd = crypt.crypt(usuario.pwd);
     }
