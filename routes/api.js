@@ -58,6 +58,7 @@ Usuario.route('post', (req, res) => {
 });
 
 Usuario.route('put', (req, res) => {
+  console.log('aquii');
   const update = async () => {
     const usuario = req.body;
     const { id } = req.params;
