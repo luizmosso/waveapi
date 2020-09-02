@@ -125,7 +125,7 @@ Instituicao.methods(['get', 'post', 'put', 'delete']);
 // });
 Instituicao.register(router, '/instituicao');
 
-router.put('/instituicao/byUser/:id', (req, res) => {
+router.get('/instituicao/byUser/:id', (req, res) => {
   console.log(req.params);
   res.send('OK');
 });
