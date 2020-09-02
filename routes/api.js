@@ -63,6 +63,7 @@ Usuario.route('put', (req, res) => {
     const usuario = req.body;
     const { _id, ...userToUpdate } = usuario;
     const result = await updateUsuario(_id, userToUpdate);
+    console.log('uai', result);
     if (result.error) {
       if (result.status === 500)
         res.status(500).json({ error: result.message });
