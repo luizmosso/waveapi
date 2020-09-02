@@ -57,12 +57,12 @@ Usuario.route('post', (req, res) => {
   }
 });
 
-Usuario.route('put:id', (req, res) => {
+Usuario.route('put', (req, res) => {
   console.log('aquii');
   const update = async () => {
     const usuario = req.body;
-    const { id } = req.params;
-    const result = await updateUsuario(id, usuario);
+    const { _id, ...userToUpdate } = usuario;
+    const result = await updateUsuario(_id, userToUpdate);
     if (result.error) {
       if (result.status === 500)
         res.status(500).json({ error: result.message });
