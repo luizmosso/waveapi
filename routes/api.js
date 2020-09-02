@@ -60,8 +60,8 @@ Usuario.route('post', (req, res) => {
 Usuario.route('put', (req, res) => {
   const update = async () => {
     const usuario = req.body;
-    const { _id } = req.params;
-    const result = await updateUsuario(_id, usuario);
+    const { id } = req.params;
+    const result = await updateUsuario(id, usuario);
     if (result.error) {
       if (result.status === 500)
         res.status(500).json({ error: result.message });
