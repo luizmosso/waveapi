@@ -61,16 +61,16 @@ Usuario.route('put', (req, res) => {
   const update = async () => {
     const usuario = req.body;
     const { _id } = req.params;
-    const usuario = await updateUsuario(_id, usuario);
-    if (usuario.error) {
-      if (usuario.status === 500)
-        res.status(500).json({ error: usuario.message });
-      if (usuario.status === 204) {
-        res.statusMessage = usuario.message;
-        res.status(usuario.status).end();
+    const result = await updateUsuario(_id, usuario);
+    if (result.error) {
+      if (result.status === 500)
+        res.status(500).json({ error: result.message });
+      if (result.status === 204) {
+        res.statusMessage = result.message;
+        res.status(result.status).end();
       }
     }
-    res.send(usuario);
+    res.send(result);
   };
   update();
 });
