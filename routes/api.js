@@ -92,8 +92,8 @@ Usuario.register(router, '/usuario');
 router.put('/usuario/:id', (req, res) => {
   const update = async () => {
     const usuario = req.body;
-    const { _id } = req.params;
-    const updatedUser = await updateUsuario(_id, usuario);
+    const { id } = req.params;
+    const updatedUser = await updateUsuario(id, usuario);
     if (updatedUser.error) {
       if (updatedUser.status === 500)
         res.status(500).json({ error: updatedUser.message });
