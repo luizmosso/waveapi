@@ -27,6 +27,29 @@ async function updateUsuario(_id, usuario) {
   }
 }
 
+async function getUsersByInstitution(instituicaoId) {
+  const params = { instituicoes: { $elemMatch: { id: instituicaoId } } };
+  try {
+    const users = await Usuario.find(params).exec();
+
+    if (!users || users.length === 0) {
+      throw {
+        customError: true,
+        error: true,
+        status: 204,
+        message: 'Usuários não encontrados',
+      };
+    }
+    return users;
+  } catch (error) {
+    if (!error.customError) {
+      return { error: true, status: 500, message: 'Erro Interno' };
+    }
+    return error;
+  }
+}
+
 module.exports = {
   updateUsuario,
+  getUsersByInstitution,
 };

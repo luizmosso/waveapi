@@ -24,7 +24,9 @@ async function DisableFamilyByCriteria() {
     const final = moment();
 
     // Desativa a família caso o tempo de atendimento tenha terminado
-    if (final.diff(cadastro, 'months', true) >= parseInt(tempoAtendimento)) {
+    if (
+      final.diff(cadastro, 'months', true) >= parseInt(tempoAtendimento + 1)
+    ) {
       DisableFamily(family, 'Tempo de atendimento');
     } else {
       for (let index = 0; index < cronograma.length; index++) {

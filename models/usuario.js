@@ -6,6 +6,7 @@ const Usuario = new mongoose.Schema({
   pwd: { type: String, select: false },
   email: String,
   token: { type: String, default: '' },
+  status: { type: String, default: 'active' },
   instituicoes: [
     {
       id: String,

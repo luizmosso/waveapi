@@ -6,7 +6,10 @@ var Familia = require('../models/familia');
 var Usuario = require('../models/usuario');
 var crypt = require('../crypt');
 const { getFamilias } = require('../controllers/familia');
-const { updateUsuario } = require('../controllers/usuario');
+const {
+  updateUsuario,
+  getUsersByInstitution,
+} = require('../controllers/usuario');
 const { getInstituicoesByUser } = require('../controllers/instituicao');
 
 Familia.methods(['post', 'put', 'delete']);
@@ -89,6 +92,22 @@ Usuario.route('login.post', (req, res) => {
 });
 Usuario.register(router, '/usuario');
 
+router.get('/usuario/byInstituicao/:instituicao', (req, res) => {
+  const get = async () => {
+    const id = req.params.instituicao || null;
+    const users = await getUsersByInstitution(id);
+    if (users.error) {
+      if (users.status === 500) res.status(500).json({ error: users.message });
+      if (users.status === 204) {
+        res.statusMessage = users.message;
+        res.status(users.status).end();
+      }
+    }
+    res.send(users);
+  };
+  get();
+});
+
 router.put('/usuario/:id', (req, res) => {
   const update = async () => {
     const usuario = req.body;
@@ -107,6 +126,7 @@ router.put('/usuario/:id', (req, res) => {
   update();
 });
 
+Instituicao.methods(['get']);
 Instituicao.register(router, '/instituicao');
 
 router.get('/instituicao/byUser/:id', (req, res) => {
