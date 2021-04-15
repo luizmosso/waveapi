@@ -1,20 +1,13 @@
-const restful = require('node-restful');
-const mongoose = restful.mongoose;
+import { Schema, model } from 'mongoose';
 
-const Usuario = new mongoose.Schema({
+const Usuario = new Schema({
   nome: String,
   pwd: { type: String, select: false },
   email: String,
   token: { type: String, default: '' },
+  refreshToken: { type: String, default: '' },
   status: { type: String, default: 'active' },
-  instituicoes: [
-    {
-      id: String,
-      status: String,
-      dataCadastro: { type: Date, default: Date.now },
-      permissoes: [{ nome: String }],
-    },
-  ],
+  instituicoes: [{ type: Schema.Types.ObjectId, ref: 'instituicao' }],
 });
 
-module.exports = restful.model('usuario', Usuario);
+export default model('usuario', Usuario);

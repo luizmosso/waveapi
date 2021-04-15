@@ -1,5 +1,5 @@
-var moment = require('moment');
-var { getFamilias, updateFamilia } = require('../controllers/familia');
+import moment from 'moment';
+import { getFamilias, updateFamilia } from '../controllers/familia';
 
 function DisableFamily(family, motivo) {
   const dataDesativacao = moment();
@@ -11,7 +11,7 @@ function DisableFamily(family, motivo) {
   updateFamilia(family.toObject());
 }
 
-async function DisableFamilyByCriteria() {
+export async function DisableFamilyByCriteria() {
   const familias = await getFamilias();
   if (!familias || familias.length === 0) return;
 
@@ -46,7 +46,3 @@ async function DisableFamilyByCriteria() {
     }
   });
 }
-
-module.exports = {
-  DisableFamilyByCriteria,
-};

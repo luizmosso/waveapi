@@ -1,16 +1,20 @@
 // Dependencies
-var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var cron = require('node-cron');
-var { DisableFamilyByCriteria } = require('./jobs/familia');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import cron from 'node-cron';
+import dotenv from 'dotenv';
+dotenv.config();
+
+import { DisableFamilyByCriteria } from './jobs/familia';
+import isAuth from './middlewares/is-auth';
+import { usuarioRouter, familiaRouter, instituicaoRouter } from './routes';
 
 // MongoDB
 mongoose.set('useFindAndModify', false);
 mongoose.connect(
-  `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}/mandela`
+  `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}/${process.env.DBSCHEMA}`
 );
 
 // Express
@@ -36,7 +40,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api', require('./routes/api'));
+app.use('/api/usuario', isAuth, usuarioRouter);
+app.use('/api/familia', isAuth, familiaRouter);
+app.use('/api/instituicao', isAuth, instituicaoRouter);
 
 // Start Server
 app.set('port', process.env.PORT || 5000);

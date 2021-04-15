@@ -1,7 +1,6 @@
-const restful = require('node-restful');
-const mongoose = restful.mongoose;
+import { Schema, model } from 'mongoose';
 
-const Instituicao = new mongoose.Schema({
+const Instituicao = new Schema({
   id: Number,
   nome: String,
   endereco: String,
@@ -10,7 +9,8 @@ const Instituicao = new mongoose.Schema({
   telefone: Number,
   responsavel: String,
   observacao: String,
+  image: String,
   dataCadastro: { type: Date, default: Date.now },
 });
 
-module.exports = restful.model('instituicao', Instituicao);
+export default model('instituicao', Instituicao);

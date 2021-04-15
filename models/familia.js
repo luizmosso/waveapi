@@ -1,7 +1,6 @@
-const restful = require('node-restful');
-const mongoose = restful.mongoose;
+import { Schema, model } from 'mongoose';
 
-const Familia = new mongoose.Schema({
+const Familia = new Schema({
   id: String,
   ativo: Boolean,
   dataCadastro: { type: Date, default: Date.now },
@@ -34,7 +33,7 @@ const Familia = new mongoose.Schema({
   observacao: String,
   tempoAtendimento: Number,
   itensDoados: String,
-  instituicao: { type: mongoose.Schema.Types.ObjectId, ref: 'Instituicao' },
+  instituicao: { type: Schema.Types.ObjectId, ref: 'Instituicao' },
   historicoAtivacao: [
     {
       data: { type: Date, default: Date.now },
@@ -45,4 +44,4 @@ const Familia = new mongoose.Schema({
   ],
 });
 
-module.exports = restful.model('familia', Familia);
+export default model('familia', Familia);
