@@ -13,9 +13,11 @@ import { usuarioRouter, familiaRouter, instituicaoRouter } from './routes';
 
 // MongoDB
 mongoose.set('useFindAndModify', false);
-mongoose.connect(
-  `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}/${process.env.DBSCHEMA}`
-);
+const connectString = `mongodb+srv://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}/${process.env.DBSCHEMA}?retryWrites=true&w=majority`;
+mongoose.connect(connectString, {
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 
 // Express
 var app = express();
