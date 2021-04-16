@@ -7,9 +7,9 @@ import cron from 'node-cron';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { DisableFamilyByCriteria } from './src/jobs/familia';
-import isAuth from './src/middlewares/is-auth';
-import { usuarioRouter, familiaRouter, instituicaoRouter } from './src/routes';
+import { DisableFamilyByCriteria } from './jobs/familia';
+import isAuth from './middlewares/is-auth';
+import { usuarioRouter, familiaRouter, instituicaoRouter } from './routes';
 
 // MongoDB
 mongoose.set('useFindAndModify', false);
