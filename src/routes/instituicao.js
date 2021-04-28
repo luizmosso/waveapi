@@ -6,7 +6,7 @@ import {
   updateInstituicao,
   createInstituicao,
 } from '../controllers/instituicao';
-import { verifyAuthentication } from '../utils/authentication';
+import { verifyAuthentication, bigDawg } from '../utils/authentication';
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
   get();
 });
 
-router.post('/', verifyAuthentication, (req, res) => {
+router.post('/', bigDawg, (req, res) => {
   const create = async () => {
     const {
       nome,
