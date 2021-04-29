@@ -14,6 +14,7 @@ import {
   createUser,
   getUserByInstitution,
 } from '../controllers/usuario';
+import { validatePassword } from '../utils/general';
 
 const router = express.Router();
 
@@ -146,8 +147,9 @@ router.post('/login', (req, res) => {
     try {
       const user = await Usuario.findOne({
         email: email,
-        pwd: hashPwd,
-      }).populate('instituicoes');
+      })
+        .select('+pwd')
+        .populate('instituicoes');
 
       if (user === null || user.length === 0) {
         throw {
@@ -157,13 +159,21 @@ router.post('/login', (req, res) => {
         };
       }
 
+      if (user.pwd !== hashPwd)
+        throw {
+          customError: true,
+          status: 204,
+          message: 'Senha incorreta',
+        };
       user.token = generateToken({ id: user._id });
       user.refreshToken = generateRefreshToken({ id: user._id });
+      user.pwd = undefined;
+
       res.send(user);
     } catch (error) {
-      if (!err.customError) res.status(500).json({ error: 'Erro interno' });
+      if (!error.customError) res.status(500).json({ error: 'Erro interno' });
       else {
-        res.statusMessage = err.message;
+        res.statusMessage = error.message;
         res.status(204).end();
       }
     }
@@ -285,8 +295,15 @@ router.delete('/:id', verifyAuthentication, (req, res) => {
 router.put('/:id', verifyAuthentication, (req, res) => {
   const update = async () => {
     try {
-      const usuario = req.body;
+      const { confirmPwd, ...usuario } = req.body;
       const { id } = req.params;
+      if (!validatePassword(usuario.pwd, confirmPwd))
+        throw {
+          customError: true,
+          status: 204,
+          message: 'As senha inválida',
+        };
+
       const updatedUser = await updateUsuario(id, usuario);
       if (updatedUser.error) {
         if (updatedUser.status === 500)
