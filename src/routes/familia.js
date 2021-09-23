@@ -6,6 +6,7 @@ import {
   createFamily,
 } from '../controllers/familia';
 import Familia from '../models/familia';
+import { getNextMonth } from '../utils/family';
 import { verifyAuthentication, bigDawg } from '../utils/authentication';
 const router = express.Router();
 
@@ -100,7 +101,38 @@ router.put('/:id', verifyAuthentication, (req, res) => {
       const { id: _id } = req.params;
       const family = req.body;
 
-      const updatedFamily = updateFamily({ _id, ...family });
+      const updatedFamily = await updateFamily({ _id, ...family });
+      res.send(updatedFamily);
+    } catch (error) {
+      if (!error.customError) res.status(500).json({ error: 'Erro interno' });
+      else {
+        const { message, status } = error;
+        res.status(status).json({ error: message });
+      }
+    }
+  };
+
+  update();
+});
+
+router.put('/:id/:instituicao/addMonth',bigDawg, (req, res) => {
+  const update = async () => {
+    try {      
+      const { id: _id, instituicao } = req.params;
+      const family = await getFamilyByInstitution({ _id }, instituicao);      
+      if (!family) {
+        throw {
+          customError: true,
+          status: 404,
+          message: 'Família não cadastrada',
+        };
+      }
+
+      const nextMonth = getNextMonth(family);
+      family.cronograma.push(nextMonth);
+      family.tempoAtendimento++;
+
+      const updatedFamily = await updateFamily({ _id, ...family });      
       res.send(updatedFamily);
     } catch (error) {
       if (!error.customError) res.status(500).json({ error: 'Erro interno' });
